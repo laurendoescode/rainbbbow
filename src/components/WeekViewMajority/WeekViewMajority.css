@@ -1,0 +1,79 @@
+@import '../../components/variables.css';
+
+.root {
+  margin: 0 auto;
+  width: 100%;
+}
+
+.container {
+  display: inline-block;
+  width: calc(100% - 50px);
+  max-width: var(--max-content-width);
+}
+
+.dayMajority {
+  width: calc(100% / 7);
+  height: calc(100vw / 7);
+  padding-right: 0.75rem;
+  padding-top: 0.75rem;
+  box-sizing: border-box;
+  display: inline-block;
+}
+
+.dayMajority {
+  &>div {
+    height: 100%;
+    text-align: center;
+    &>span {
+      font-family: 'Open sans';
+      color: #fff;
+      font-size: 2em;
+      display: inline-block;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+.date {
+  font-family: 'Open sans';
+  color: #fff;
+  font-size: 1.5em;
+  position: absolute;
+  padding: 0.2em;
+  font-weight: 300;
+  letter-spacing: 2px;
+}
+
+.blue {
+  background-color: #273580;
+}
+
+.cyan {
+  background-color: #4db2df;
+}
+
+.red {
+  background-color: #e30613;
+}
+
+.orange {
+  background-color: #f28d11;
+}
+
+.yellow {
+  background-color: #fde254;
+}
+
+.green {
+  background-color: #008d36;
+}
+
+.pink {
+  background-color: #eb5a8c;
+}
+
+.purple {
+  background-color: #662483;
+}

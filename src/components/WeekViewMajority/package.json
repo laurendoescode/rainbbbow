@@ -1,0 +1,6 @@
+{
+  "name": "WeekViewMajority",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WeekViewMajority.js"
+}

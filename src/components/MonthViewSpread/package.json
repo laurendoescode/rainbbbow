@@ -1,0 +1,6 @@
+{
+  "name": "MonthViewSpread",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./MonthViewSpread.js"
+}

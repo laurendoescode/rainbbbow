@@ -1,0 +1,6 @@
+{
+  "name": "WeekViewSpread",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./WeekViewSpread.js"
+}

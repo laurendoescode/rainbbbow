@@ -1,0 +1,45 @@
+@import '../variables.css';
+
+.root {
+  padding: 1.5%;
+  background-color: #fff;
+  border-top: #2b313a solid 10px;
+  height: 5em;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--max-content-width);
+}
+
+.logo {
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  position: relative;
+  left: 2%;
+}
+
+@media only screen and (min-device-width: 320px)  and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .root {
+      padding: 0.5%;
+      border-top: #2b313a solid 5px;
+      height: 5em;
+      & h1 {
+      font-size: 1em;
+    }
+  }
+
+  .logo {
+    display: inline-block;
+    vertical-align:top;
+    float: left;
+    position: relative;
+    top: 0px;
+    left: 1%;
+    & img {
+      width: 150px;
+    }
+  }
+}

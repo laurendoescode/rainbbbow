@@ -1,0 +1,138 @@
+@import '../../components/variables.css';
+
+.root {
+}
+
+.container {
+  margin: 0 auto;
+  max-width: var(--max-content-width);
+}
+
+.month {
+  padding-bottom: 1.5rem;
+}
+
+/* TODO - Header stuff - move this */
+
+.headerRoot {
+  padding: 1.5%;
+  background-color: #fff;
+  border-top: #2b313a solid 10px;
+  height: 5em;
+}
+
+.headerContainer {
+  margin: 0 auto;
+  max-width: var(--max-content-width);
+}
+
+.logo {
+  text-decoration: none;
+  display: inline-block;
+  vertical-align: middle;
+  float: left;
+  position: relative;
+  left: 2%;
+}
+
+@media only screen and (min-device-width: 320px)  and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .headerRoot {
+      padding: 0.5%;
+      border-top: #2b313a solid 5px;
+      height: 5em;
+      & h1 {
+      font-size: 1em;
+    }
+  }
+
+  .logo {
+    display: inline-block;
+    vertical-align:top;
+    float: left;
+    position: relative;
+    top: 0px;
+    left: 1%;
+    & img {
+      width: 150px;
+    }
+  }
+}
+
+/* TODO - Navigation stuff - move this */
+
+.navigationRoot {
+  margin: 0;
+  float: right;
+}
+
+.icon {
+  display: inline-block;
+  width: 44px;
+  vertical-align: middle;
+  margin: 0 0.75rem;
+  cursor: pointer;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  &:first-of-type {
+    margin-left: 0;
+  }
+  &:last-of-type {
+    margin-right: 0;
+  }
+  &:hover {
+    opacity: 0.6;
+    border-color: #2b313a;
+  }
+}
+
+.active {
+  border-color: #2b313a;
+}
+
+.label {
+  display: none;
+}
+
+.divider {
+  font-size: 44px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+@media only screen and (min-device-width: 320px)  and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+  .navigationRoot {
+    position: fixed;
+    bottom: 0!important;
+    left: 0!important;
+    top: initial;
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: 999;
+    width:90%;
+    margin:0;
+    height:92px;
+    margin: 0;
+    padding: 4px 5% 0px 3%;
+  }
+
+  .icon {
+    width: 40px;
+    float: left;
+    padding: 0 0.6em;
+  }
+
+  .label {
+    font-weight: 300;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    color: #fff;
+    padding: 0 0.6em;
+  }
+
+  .icon .label {
+    display: inline;
+  }
+
+  .divider {
+    display: none;
+  }
+}

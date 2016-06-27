@@ -396,7 +396,7 @@ module.exports =
   /* eslint-disable max-len */
   /* jscs:disable maximumLineLength */
   
-  var port = exports.port = process.env.PORT || 3000;
+  var port = exports.port = process.env.PORT || 3001;
   var host = exports.host = process.env.WEBSITE_HOSTNAME || 'localhost:' + port;
   
   var databaseUrl = exports.databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';

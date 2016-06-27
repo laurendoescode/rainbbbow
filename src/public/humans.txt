@@ -3,13 +3,12 @@
 
 # TEAM
 
-    <name> -- <role> -- <twitter>
-
-# THANKS
-
-    <name>
+    Lauren Kelly - Designer
+    Charles Bancroft - Developer
 
 # TECHNOLOGY COLOPHON
 
     CSS3, HTML5, JavaScript
-    React, Flux, SuperAgent
+    React, Node, GraphQL
+    getpixels, quantize
+

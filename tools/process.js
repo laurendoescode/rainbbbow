@@ -4,6 +4,7 @@ import fetch from 'node-fetch';
 import Sequelize from 'sequelize';
 import { databaseUrl, auth } from '../src/config';
 import Rainbow from '../src/data/models/Rainbow';
+import moment from 'moment';
 
 const sequelize = new Sequelize(databaseUrl, {
   define: {
@@ -24,9 +25,9 @@ let primaryHueVotes = {
 
 async function process() {
   const host = 'api.dribbble.com/v1/shots';
-  const date = format(new Date);
-  const token = auth.dribbble.access_token; 
-  const url = `https://${host}?date=${date}&access_token=${token}`;
+  const formattedDate = format(moment().subtract('days', 1));
+  const token = auth.dribbble.access_token;
+  const url = `https://${host}?date=${formattedDate}&access_token=${token}`;
   await Rainbow.sync();
   const res = await fetch(url).then((res) => {
       return res.json();
@@ -44,7 +45,7 @@ async function process() {
     });
     newList.push(percentageRainbow(primaryHueVotes));
     if (newList.length == imageList.length) {
-    	saveRainbow(newList[newList.length - 1]);
+    	saveRainbow(formattedDate, newList[newList.length - 1]);
     }
   };
   for (let img of imageList) {
@@ -154,9 +155,9 @@ function format(time) {
   return time.toISOString().split('T')[0];
 }
 
-async function saveRainbow(rainbow) {
+async function saveRainbow(formattedDate, rainbow) {
 	const rainbbbow = Rainbow.build({
-	  date: new Date,
+	  date: new Date(formattedDate),
 	  red: rainbow.red,
 	  orange: rainbow.orange,
 	  yellow: rainbow.yellow,

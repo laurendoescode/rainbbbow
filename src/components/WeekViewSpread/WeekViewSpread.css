@@ -7,17 +7,17 @@
 
 .container {
   display: inline-block;
-  width: calc(100% - 50px);
   max-width: var(--max-content-width);
 }
 
 .daySpread {
-  width: calc(100% / 7);
-  height: calc(100vw / 7);
-  padding-right: 0.75rem;
   padding-top: 0.75rem;
+  padding-right: 0.75rem;
   box-sizing: border-box;
-  display: inline-block;
+  width: calc(100vw - 1.5rem);
+  height: calc(100vw - 1.5rem);
+  transform-origin: center;
+  transform: rotate(-90deg);
 }
 
 .date {
@@ -28,6 +28,22 @@
   padding: 0.2em;
   font-weight: 300;
   letter-spacing: 2px;
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: calc(100% - 50px);
+  }
+  .date {
+    display: block;
+  }
+  .daySpread {
+    width: calc(100% / 7);
+    height: calc(100vw / 7);
+    display: inline-block;
+    transform: none;
+  }
 }
 
 .blue {

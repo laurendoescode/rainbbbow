@@ -10,7 +10,6 @@ import spreadIconUrl from './nav_spread.svg';
 import majorityIconUrl from './nav_majority.svg';
 import monthIconUrl from './nav_month.svg';
 import weekIconUrl from './nav_week.svg';
-
 import WeekViewSpread from '../../components/WeekViewSpread';
 import WeekViewMajority from '../../components/WeekViewMajority';
 import MonthViewSpread from '../../components/MonthViewSpread';
@@ -57,6 +56,7 @@ class Home extends React.Component {
   }
   toggleAbout(e) {
     e.preventDefault();
+    this.setState({aboutShown: !this.state.aboutShown});
   }
   renderMonth(number, month) {
     const name = monthNames[number];
@@ -78,6 +78,12 @@ class Home extends React.Component {
         <div className={s.container}>
           <div className={s.headerRoot}>
             <div className={s.headerContainer}>
+              <div className={s.logo}>
+                <Link to="/">
+                  <img src={logoUrl} width="180" height="41" alt="Rainbbbow" title="Rainbbbow" />
+                </Link>
+                <h1 className={s.heading}>Colour trends on dribbble</h1>
+              </div>
               <div className={s.navigationRoot} role="navigation">
                 <a title="Week" className={this.state.dateType === 'week' ? cx(s.icon, s.active) : s.icon} onClick={this.switchDateType.bind(this, 'week')}>
                   <img src={weekIconUrl}  width="44" height="44" alt="Week" />
@@ -101,10 +107,11 @@ class Home extends React.Component {
                   <h3 className={s.label}>About</h3>
                 </a>
               </div>
-              <Link className={s.logo} to="/">
-                <img src={logoUrl} width="220" height="50" alt="Rainbbbow" />
-                <h1 className={s.heading}>Colour trends on dribbble</h1>
-              </Link>
+            </div>
+            <div className={this.state.aboutShown ? cx(s.about, s.show) : s.about}>
+              <h2 className={s.aboutHeading}>About</h2>
+              <p>Rainbbbow documents the most popular colours of designers’ shots uploaded to Dribbble. Looking at daily and monthy data we can see the trends in which colours are used the most. Using our own algorithm we’ve weighted the data to aid visualisation of the colours used, from the most popular to the least popular.</p>
+              <p>Created by Designer Lauren Kelly and Developer Charles Bancroft, otherwise known as Hello trio.</p>
             </div>
           </div>
           {_.map(this.sortKeys(groupedMonths), (key) => (

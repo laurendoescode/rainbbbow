@@ -7,20 +7,17 @@
 
 .container {
   display: inline-block;
-  width: calc(100% - 50px);
   max-width: var(--max-content-width);
 }
 
 .dayMajority {
-  width: calc(100% / 7);
-  height: calc(100vw / 7);
+  width: calc(100vw - 0.75rem);
+  height: calc(100vw - 0.75rem);
   padding-right: 0.75rem;
+  padding-left: 0.75rem;
   padding-top: 0.75rem;
   box-sizing: border-box;
   display: inline-block;
-}
-
-.dayMajority {
   &>div {
     height: 100%;
     text-align: center;
@@ -44,6 +41,24 @@
   padding: 0.2em;
   font-weight: 300;
   letter-spacing: 2px;
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .container {
+    width: calc(100% - 50px);
+  }
+  .date {
+    display: block;
+  }
+  .dayMajority {
+    padding-left: 0;
+    padding-right: 0.75rem;
+    width: calc(100% / 7);
+    height: calc(100vw / 7);
+    display: inline-block;
+    transform: none;
+  }
 }
 
 .blue {

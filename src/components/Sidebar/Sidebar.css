@@ -1,10 +1,7 @@
 @import '../variables.css';
 
 .root {
-	width: 50px;
-	display: inline-block;
 	position: relative;
-	vertical-align: top;
 }
 
 .month {
@@ -12,12 +9,23 @@
   font-weight: 300;
   color: #878787;
   font-size: 1.5em;
-  transform-origin: top left;
-  transform: rotate(-90deg);
-  margin: 0;
+  margin: 1rem 0;
   display: inline-block;
   position: relative;
-  left: 0.375rem;
-  bottom: -calc(100vw / 7);
   padding-left: 0.75rem;
+}
+
+@media only screen and (min-width: 768px) {
+  .root {
+    width: 50px;
+    display: inline-block;
+    vertical-align: top;
+  }
+  .month {
+    transform-origin: top left;
+    transform: rotate(-90deg);
+    left: 0.375rem;
+    bottom: -calc(100vw / 7);
+    margin: 0;
+  }
 }

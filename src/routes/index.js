@@ -3,13 +3,7 @@ import App from '../components/App';
 
 // Child routes
 import home from './home';
-import contact from './contact';
-import login from './login';
-import content from './content';
 import error from './error';
-
-import weekView from './weekView';
-import monthView from './monthView';
 
 export default {
 
@@ -17,11 +11,6 @@ export default {
 
   children: [
     home,
-    contact,
-    login,
-    weekView,
-    monthView,
-    content,
     error,
   ],
 

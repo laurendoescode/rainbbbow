@@ -106,7 +106,14 @@ module.exports =
   
   var _config = __webpack_require__(15);
   
+  var _process = __webpack_require__(83);
+  
+  var _process2 = _interopRequireDefault(_process);
+  
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  
+  // eslint-disable-line import/no-unresolved
+  
   
   var app = (0, _express2.default)();
   
@@ -114,7 +121,6 @@ module.exports =
   // Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
   // user agent is not known.
   // -----------------------------------------------------------------------------
-  // eslint-disable-line import/no-unresolved
   global.navigator = global.navigator || {};
   global.navigator.userAgent = global.navigator.userAgent || 'all';
   
@@ -156,7 +162,7 @@ module.exports =
                       case 0:
                         css = [];
                         statusCode = 200;
-                        template = __webpack_require__(83); // eslint-disable-line global-require
+                        template = __webpack_require__(87); // eslint-disable-line global-require
   
                         data = { title: '', description: '', css: '', body: '', entry: _assets2.default.main.js };
   
@@ -236,7 +242,7 @@ module.exports =
   app.use(function (err, req, res, next) {
     // eslint-disable-line no-unused-vars
     console.log(pe.render(err)); // eslint-disable-line no-console
-    var template = __webpack_require__(86); // eslint-disable-line global-require
+    var template = __webpack_require__(90); // eslint-disable-line global-require
     var statusCode = err.status || 500;
     res.status(statusCode);
     res.send(template({
@@ -257,6 +263,14 @@ module.exports =
     });
   });
   /* eslint-enable no-console */
+  
+  //
+  // Start cron job
+  // -----------------------------------------------------------------------------
+  var CronJob = __webpack_require__(91).CronJob;
+  new CronJob('0 6 * * *', function () {
+    (0, _process2.default)();
+  }, null, true, 'UTC');
 
 /***/ },
 /* 1 */
@@ -2708,7 +2722,320 @@ module.exports =
 /* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
-  var jade = __webpack_require__(84);
+  'use strict';
+  
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  
+  var _regenerator = __webpack_require__(1);
+  
+  var _regenerator2 = _interopRequireDefault(_regenerator);
+  
+  var _getIterator2 = __webpack_require__(38);
+  
+  var _getIterator3 = _interopRequireDefault(_getIterator2);
+  
+  var _asyncToGenerator2 = __webpack_require__(2);
+  
+  var _asyncToGenerator3 = _interopRequireDefault(_asyncToGenerator2);
+  
+  var process = function () {
+    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee() {
+      var primaryHueVotes, host, formattedDate, token, url, res, imageList, newList, processImage, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, img;
+  
+      return _regenerator2.default.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              primaryHueVotes = {
+                red: 0,
+                orange: 0,
+                yellow: 0,
+                green: 0,
+                cyan: 0,
+                blue: 0,
+                purple: 0,
+                pink: 0
+              };
+              host = 'api.dribbble.com/v1/shots';
+              formattedDate = format((0, _moment2.default)().subtract('days', 1));
+              token = _config.auth.dribbble.access_token;
+              url = 'https://' + host + '?date=' + formattedDate + '&access_token=' + token;
+              _context.next = 7;
+              return _Rainbow2.default.sync();
+  
+            case 7:
+              _context.next = 9;
+              return (0, _nodeFetch2.default)(url).then(function (res) {
+                return res.json();
+              }).then(function (json) {
+                return json;
+              });
+  
+            case 9:
+              res = _context.sent;
+              imageList = res.map(function (elem) {
+                return elem.images.normal;
+              });
+              newList = [];
+  
+              processImage = function processImage(err, pixels) {
+                var hueList = findImagePrimaryHues(pixels);
+                hueList.forEach(function (hue) {
+                  primaryHueVotes[hue] += 1;
+                });
+                newList.push(percentageRainbow(primaryHueVotes));
+                if (newList.length == imageList.length) {
+                  saveRainbow(formattedDate, newList[newList.length - 1]);
+                }
+              };
+  
+              _iteratorNormalCompletion = true;
+              _didIteratorError = false;
+              _iteratorError = undefined;
+              _context.prev = 16;
+  
+              for (_iterator = (0, _getIterator3.default)(imageList); !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                img = _step.value;
+  
+                (0, _getPixels2.default)(img, processImage);
+              }
+              _context.next = 24;
+              break;
+  
+            case 20:
+              _context.prev = 20;
+              _context.t0 = _context['catch'](16);
+              _didIteratorError = true;
+              _iteratorError = _context.t0;
+  
+            case 24:
+              _context.prev = 24;
+              _context.prev = 25;
+  
+              if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+              }
+  
+            case 27:
+              _context.prev = 27;
+  
+              if (!_didIteratorError) {
+                _context.next = 30;
+                break;
+              }
+  
+              throw _iteratorError;
+  
+            case 30:
+              return _context.finish(27);
+  
+            case 31:
+              return _context.finish(24);
+  
+            case 32:
+            case 'end':
+              return _context.stop();
+          }
+        }
+      }, _callee, this, [[16, 20, 24, 32], [25,, 27, 31]]);
+    }));
+    return function process() {
+      return ref.apply(this, arguments);
+    };
+  }();
+  
+  var saveRainbow = function () {
+    var ref = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee2(formattedDate, rainbow) {
+      var rainbbbow;
+      return _regenerator2.default.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              rainbbbow = _Rainbow2.default.build({
+                date: new Date(formattedDate),
+                red: rainbow.red,
+                orange: rainbow.orange,
+                yellow: rainbow.yellow,
+                green: rainbow.green,
+                cyan: rainbow.cyan,
+                blue: rainbow.blue,
+                pink: rainbow.pink,
+                purple: rainbow.purple
+              });
+              _context2.next = 3;
+              return rainbbbow.save().then(function () {
+                return _Rainbow2.default.count().then(function (c) {
+                  console.log("There are " + c + " rainbows!");
+                });
+              });
+  
+            case 3:
+            case 'end':
+              return _context2.stop();
+          }
+        }
+      }, _callee2, this);
+    }));
+    return function saveRainbow(_x, _x2) {
+      return ref.apply(this, arguments);
+    };
+  }();
+  
+  var _getPixels = __webpack_require__(84);
+  
+  var _getPixels2 = _interopRequireDefault(_getPixels);
+  
+  var _quantize = __webpack_require__(85);
+  
+  var _quantize2 = _interopRequireDefault(_quantize);
+  
+  var _nodeFetch = __webpack_require__(77);
+  
+  var _nodeFetch2 = _interopRequireDefault(_nodeFetch);
+  
+  var _sequelize = __webpack_require__(14);
+  
+  var _sequelize2 = _interopRequireDefault(_sequelize);
+  
+  var _config = __webpack_require__(15);
+  
+  var _Rainbow = __webpack_require__(16);
+  
+  var _Rainbow2 = _interopRequireDefault(_Rainbow);
+  
+  var _moment = __webpack_require__(86);
+  
+  var _moment2 = _interopRequireDefault(_moment);
+  
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  
+  var sequelize = new _sequelize2.default(_config.databaseUrl, {
+    define: {
+      freezeTableName: true
+    }
+  });
+  
+  exports.default = process;
+  
+  
+  function findImagePrimaryHues(pixels) {
+    var arrayOfPixels = pixels.data;
+    var channelCount = pixels.shape.slice()[pixels.shape.slice().length - 1];
+    var pixelCount = arrayOfPixels.length / channelCount;
+    var colorCount = 3;
+    var quality = 10;
+    var pixelArray = [];
+    for (var i = 0; i < pixelCount; i = i + quality) {
+      var offset = i * 4;
+      var r = arrayOfPixels[offset + 0];
+      var g = arrayOfPixels[offset + 1];
+      var b = arrayOfPixels[offset + 2];
+      var a = arrayOfPixels[offset + 3];
+      // If pixel is mostly opaque and not white
+      if (a >= 125) {
+        if (!(r > 250 && g > 250 && b > 250)) {
+          pixelArray.push([r, g, b]);
+        }
+      }
+    }
+    var colorMap = (0, _quantize2.default)(pixelArray, colorCount);
+    var dominantPrimaryHues = colorMap.palette().map(function (elem, idx) {
+      return getClosestPrimary(rgbToHue(elem));
+    });
+    return dominantPrimaryHues;
+  }
+  
+  // Math
+  
+  function getClosestPrimary(hue) {
+    hue = hue % 1;
+    var primaryHues = [{ name: 'red', value: 0 }, { name: 'orange', value: 30 / 360 }, { name: 'yellow', value: 60 / 360 }, { name: 'green', value: 120 / 360 }, { name: 'cyan', value: 180 / 360 }, { name: 'blue', value: 240 / 360 }, { name: 'purple', value: 285 / 360 }, { name: 'pink', value: 330 / 360 }];
+    var closestPrimary = primaryHues.reduce(function (curr, last) {
+      return getPrimaryHueDistance(curr, hue) < getPrimaryHueDistance(last, hue) ? curr : last;
+    });
+    return closestPrimary.name;
+  }
+  
+  function rgbToHue(arr) {
+    var rr,
+        gg,
+        bb,
+        r = arr[0] / 255,
+        g = arr[1] / 255,
+        b = arr[2] / 255,
+        h,
+        v = Math.max(r, g, b),
+        diff = v - Math.min(r, g, b),
+        diffc = function diffc(c) {
+      return (v - c) / 6 / diff + 1 / 2;
+    };
+    if (diff == 0) {
+      h = 0;
+    } else {
+      rr = diffc(r);
+      gg = diffc(g);
+      bb = diffc(b);
+  
+      if (r === v) {
+        h = bb - gg;
+      } else if (g === v) {
+        h = 1 / 3 + rr - bb;
+      } else if (b === v) {
+        h = 2 / 3 + gg - rr;
+      }
+      if (h < 0) {
+        h += 1;
+      } else if (h > 1) {
+        h -= 1;
+      }
+    }
+    return h;
+  }
+  
+  function getPrimaryHueDistance(primaryHue, hue) {
+    return Math.min(Math.abs(primaryHue.value - hue), Math.abs(1 + primaryHue.value - hue));
+  }
+  
+  function percentageRainbow(hueVotes) {
+    var total = 0;
+    for (var key in hueVotes) {
+      total += hueVotes[key];
+    }
+    for (var _key in hueVotes) {
+      hueVotes[_key] = hueVotes[_key] / total * 100;
+    }
+    return hueVotes;
+  }
+  
+  function format(time) {
+    return time.toISOString().split('T')[0];
+  }
+
+/***/ },
+/* 84 */
+/***/ function(module, exports) {
+
+  module.exports = require("get-pixels");
+
+/***/ },
+/* 85 */
+/***/ function(module, exports) {
+
+  module.exports = require("quantize");
+
+/***/ },
+/* 86 */
+/***/ function(module, exports) {
+
+  module.exports = require("moment");
+
+/***/ },
+/* 87 */
+/***/ function(module, exports, __webpack_require__) {
+
+  var jade = __webpack_require__(88);
   
   module.exports = function template(locals) {
   var jade_debug = [ new jade.DebugItem( 1, "/home/bomber/sites/rainbow/src/views/index.jade" ) ];
@@ -2811,7 +3138,7 @@ module.exports =
   }
 
 /***/ },
-/* 84 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -3031,7 +3358,7 @@ module.exports =
       throw err;
     }
     try {
-      str = str || __webpack_require__(85).readFileSync(filename, 'utf8')
+      str = str || __webpack_require__(89).readFileSync(filename, 'utf8')
     } catch (ex) {
       rethrow(err, null, lineno)
     }
@@ -3063,16 +3390,16 @@ module.exports =
 
 
 /***/ },
-/* 85 */
+/* 89 */
 /***/ function(module, exports) {
 
   module.exports = require("fs");
 
 /***/ },
-/* 86 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
-  var jade = __webpack_require__(84);
+  var jade = __webpack_require__(88);
   
   module.exports = function template(locals) {
   var jade_debug = [ new jade.DebugItem( 1, "/home/bomber/sites/rainbow/src/views/error.jade" ) ];
@@ -3351,6 +3678,12 @@ module.exports =
     jade.rethrow(err, jade_debug[0].filename, jade_debug[0].lineno, "doctype html\nhtml(lang=\"en\")\n  head\n    meta(charset=\"utf-8\")\n    title Internal Server Error\n    meta(name=\"viewport\", content=\"width=device-width, initial-scale=1\")\n    style.\n      * {\n        line-height: 1.2;\n        margin: 0;\n      }\n\n      html {\n        color: #888;\n        display: table;\n        font-family: sans-serif;\n        height: 100%;\n        text-align: center;\n        width: 100%;\n      }\n\n      body {\n        display: table-cell;\n        vertical-align: middle;\n        margin: 2em auto;\n      }\n\n      h1 {\n        color: #555;\n        font-size: 2em;\n        font-weight: 400;\n      }\n\n      p {\n        margin: 0 auto;\n        width: 280px;\n      }\n\n      pre {\n        text-align: left;\n        margin-top: 2rem;\n      }\n\n      @media only screen and (max-width: 280px) {\n\n        body, p {\n          width: 95%;\n        }\n\n        h1 {\n          font-size: 1.5em;\n          margin: 0 0 0.3em;\n        }\n\n      }\n\n  body\n    h1 Internal Server Error\n    p Sorry, something went wrong.\n    pre= stack\n// IE needs 512+ bytes: http://blogs.msdn.com/b/ieinternals/archive/2010/08/19/http-error-pages-in-internet-explorer.aspx\n");
   }
   }
+
+/***/ },
+/* 91 */
+/***/ function(module, exports) {
+
+  module.exports = require("cron");
 
 /***/ }
 /******/ ]);

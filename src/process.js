@@ -12,18 +12,17 @@ const sequelize = new Sequelize(databaseUrl, {
   },
 });
 
-let primaryHueVotes = {
-  red: 0,
-  orange: 0,
-  yellow: 0,
-  green: 0,
-  cyan: 0,
-  blue: 0,
-  purple: 0,
-  pink: 0
-};
-
 async function process() {
+  let primaryHueVotes = {
+    red: 0,
+    orange: 0,
+    yellow: 0,
+    green: 0,
+    cyan: 0,
+    blue: 0,
+    purple: 0,
+    pink: 0
+  };
   const host = 'api.dribbble.com/v1/shots';
   const formattedDate = format(moment().subtract('days', 1));
   const token = auth.dribbble.access_token;
@@ -168,8 +167,8 @@ async function saveRainbow(formattedDate, rainbow) {
 	  purple: rainbow.purple
 	});
 	await rainbbbow.save().then(() => {
-	  Rainbow.count().then((c) => {
+	  return Rainbow.count().then((c) => {
   		console.log("There are " + c + " rainbows!")
-  	  });
+  	});
 	});
 }

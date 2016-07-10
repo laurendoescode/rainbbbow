@@ -12,19 +12,8 @@ const sequelize = new Sequelize(databaseUrl, {
   },
 });
 
-let primaryHueVotes = {
-  red: 0,
-  orange: 0,
-  yellow: 0,
-  green: 0,
-  cyan: 0,
-  blue: 0,
-  purple: 0,
-  pink: 0
-};
-
 async function processH() {
-	const a = moment().startOf('year').endOf('day');
+	const a = moment("2016-04-06").endOf('day');
 	const b = moment().endOf('day').subtract('days', 1);
 
 	for (let m = moment(a); m.isBefore(b); m.add('days', 1)) {
@@ -33,6 +22,16 @@ async function processH() {
 }
 
 async function process(date) {
+  let primaryHueVotes = {
+    red: 0,
+    orange: 0,
+    yellow: 0,
+    green: 0,
+    cyan: 0,
+    blue: 0,
+    purple: 0,
+    pink: 0
+  };
   const host = 'api.dribbble.com/v1/shots';
   const formattedDate = format(date);
   const token = auth.dribbble.access_token; 

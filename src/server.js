@@ -12,6 +12,7 @@ import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import { port, auth, analytics } from './config';
+import processImages from './process';
 
 const app = express();
 
@@ -106,3 +107,11 @@ models.sync().catch(err => console.error(err.stack)).then(() => {
   });
 });
 /* eslint-enable no-console */
+
+//
+// Start cron job
+// -----------------------------------------------------------------------------
+const CronJob = require('cron').CronJob;
+new CronJob('0 6 * * *', function() {
+  processImages();
+}, null, true, 'UTC');
